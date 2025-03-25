@@ -2,8 +2,54 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="eisenhower-matrix">
+    <div class="eisenhower-section">
+        <h2>Zrób to teraz (Ważne i Pilne)</h2>
+        <ul class="task-list" id="do-now-tasks"></ul>
+    </div>
+    <div class="eisenhower-section">
+        <h2>Zaplanuj (Ważne, Niepilne)</h2>
+        <ul class="task-list" id="schedule-tasks"></ul>
+    </div>
+    <div class="eisenhower-section">
+        <h2>Deleguj (Pilne, Nieważne)</h2>
+        <ul class="task-list" id="delegate-tasks"></ul>
+    </div>
+    <div class="eisenhower-section">
+        <h2>Usuń (Nieważne, Niepilne)</h2>
+        <ul class="task-list" id="delete-tasks"></ul>
+    </div>
 </div>
- 
+<div class="add-task-form">
+    <h2>Dodaj zadanie</h2>
+    <input type="text" id="task-input" placeholder="Wpisz zadanie" class="form-control" />
+    <select id="priority-select" class="form-control">
+        <option value="do-now">Zrób to teraz</option>
+        <option value="schedule">Zaplanuj</option>
+        <option value="delegate">Deleguj</option>
+        <option value="delete">Usuń</option>
+    </select>
+    <button id="add-task-button" class="btn btn-primary">Dodaj</button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const taskInput = document.getElementById('task-input');
+        const prioritySelect = document.getElementById('priority-select');
+        const addTaskButton = document.getElementById('add-task-button');
+
+        addTaskButton.addEventListener('click', function () {
+            const taskText = taskInput.value.trim();
+            const priority = prioritySelect.value;
+
+            if (taskText) {
+                const taskList = document.getElementById(`${priority}-tasks`);
+                const taskItem = document.createElement('li');
+                taskItem.className = 'task-item';
+                taskItem.textContent = taskText;
+                taskList.appendChild(taskItem);
+                taskInput.value = '';
+            }
+        });
+    });
+</script>
