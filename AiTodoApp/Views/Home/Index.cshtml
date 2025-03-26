@@ -1,55 +1,124 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Eisenhower Matrix";
 }
 
-<div class="eisenhower-matrix">
-    <div class="eisenhower-section">
-        <h2>Zrób to teraz (Ważne i Pilne)</h2>
-        <ul class="task-list" id="do-now-tasks"></ul>
-    </div>
-    <div class="eisenhower-section">
-        <h2>Zaplanuj (Ważne, Niepilne)</h2>
-        <ul class="task-list" id="schedule-tasks"></ul>
-    </div>
-    <div class="eisenhower-section">
-        <h2>Deleguj (Pilne, Nieważne)</h2>
-        <ul class="task-list" id="delegate-tasks"></ul>
-    </div>
-    <div class="eisenhower-section">
-        <h2>Usuń (Nieważne, Niepilne)</h2>
-        <ul class="task-list" id="delete-tasks"></ul>
-    </div>
-</div>
-<div class="add-task-form">
-    <h2>Dodaj zadanie</h2>
-    <input type="text" id="task-input" placeholder="Wpisz zadanie" class="form-control" />
-    <select id="priority-select" class="form-control">
-        <option value="do-now">Zrób to teraz</option>
-        <option value="schedule">Zaplanuj</option>
-        <option value="delegate">Deleguj</option>
-        <option value="delete">Usuń</option>
-    </select>
-    <button id="add-task-button" class="btn btn-primary">Dodaj</button>
-</div>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3E08gFpDN2sN9F8xQbsIkRlH1jgINtnVQbtq3Q9cuMP6f5Q" crossorigin="anonymous">
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const taskInput = document.getElementById('task-input');
-        const prioritySelect = document.getElementById('priority-select');
-        const addTaskButton = document.getElementById('add-task-button');
+        .eisenhower-section {
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-        addTaskButton.addEventListener('click', function () {
-            const taskText = taskInput.value.trim();
-            const priority = prioritySelect.value;
-
-            if (taskText) {
-                const taskList = document.getElementById(`${priority}-tasks`);
-                const taskItem = document.createElement('li');
-                taskItem.className = 'task-item';
-                taskItem.textContent = taskText;
-                taskList.appendChild(taskItem);
-                taskInput.value = '';
+            .eisenhower-section h2 {
+                color: #495057;
             }
+
+        .add-task-form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Eisenhower Matrix</h1>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="eisenhower-section">
+                    <h2>Zrób to teraz (Ważne i Pilne)</h2>
+                    <ul class="list-group" id="do-now-tasks"></ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="eisenhower-section">
+                    <h2>Zaplanuj (Ważne, Niepilne)</h2>
+                    <ul class="list-group" id="schedule-tasks"></ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="eisenhower-section">
+                    <h2>Deleguj (Pilne, Nieważne)</h2>
+                    <ul class="list-group" id="delegate-tasks"></ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="eisenhower-section">
+                    <h2>Usuń (Nieważne, Niepilne)</h2>
+                    <ul class="list-group" id="delete-tasks"></ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="add-task-form mt-4">
+            <h2 class="text-center">Dodaj zadanie</h2>
+            <div class="input-group mb-2">
+                <input type="text" id="task-input" placeholder="Wpisz zadanie" class="form-control" />
+            </div>
+            <div class="input-group mb-2">
+                <select id="priority-select" class="form-select">
+                    <option value="do-now">Zrób to teraz</option>
+                    <option value="schedule">Zaplanuj</option>
+                    <option value="delegate">Deleguj</option>
+                    <option value="delete">Usuń</option>
+                </select>
+            </div>
+            <div class="d-grid">
+                <button id="add-task-button" class="btn btn-primary">Dodaj</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12mnEDr56kfy81a/iNtKnDrH0L4od+Sx10d5Tjlvn2IGF02h" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const taskInput = document.getElementById('task-input');
+            const prioritySelect = document.getElementById('priority-select');
+            const addTaskButton = document.getElementById('add-task-button');
+
+            addTaskButton.addEventListener('click', function () {
+                const taskText = taskInput.value.trim();
+                const priority = prioritySelect.value;
+
+                if (taskText) {
+                    const taskList = document.getElementById(`${priority}-tasks`);
+                    const taskItem = document.createElement('li');
+                    taskItem.className = 'list-group-item task-item';
+                    taskItem.textContent = taskText;
+
+                    // Dodaj zdarzenie kliknięcia do usunięcia zadania
+                    taskItem.addEventListener('click', function () {
+                        taskList.removeChild(taskItem);
+                    });
+
+                    taskList.appendChild(taskItem);
+                    taskInput.value = '';
+                }
+            });
         });
-    });
-</script>
+    </script>
+</body>
+</html>
