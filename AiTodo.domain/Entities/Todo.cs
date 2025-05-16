@@ -7,15 +7,18 @@ using System.Threading.Tasks;
 namespace AiTodo.domain.Entities
 {
    
-    internal class Todo
+    public class Todo
     {
-        public required int Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; } = default!;
         public string? Description { get; set; }
         public DateTime? DueDate { get; set; } = DateTime.UtcNow;
-        public bool? IsComplete { get; set; }
+        public bool? IsComplete { get; set; } = false;
         public int? Status { get; set; }
         public bool? Urgent { get; set; }
         public bool? Important { get; set; }
+
+    public string EncodedTitle { get; private set; } = default;
+    public void EncodeTitle()=> EncodedTitle = Name.ToLower().Replace(" ","-");
     }
 }
