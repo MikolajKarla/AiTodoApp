@@ -1,3 +1,4 @@
+using AiTodo.application.Extensions;
 using AiTodoApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -27,6 +28,19 @@ namespace AiTodoApp.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public IActionResult Create()
+        {
+            return View();
+        }
+        public async Task<ActionResult> Create(TodoDto todo)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(todo);
+            }
+            await _logger.Create(todo);
+            await RedirectToAction("/");
         }
     }
 }
